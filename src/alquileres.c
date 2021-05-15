@@ -59,8 +59,8 @@ int addAlquiler(Alquiler aList[], int aLen, int* idAlquiler, Cliente cList[], in
 					printf("\n\tEl id del cliente es invalido\n\n");
 				}
 				printJuegos(jList, jLen);
-				flagJuegoId = utn_getInt(&auxAlquiler.idJuego, "Juego ID", "El id del juego tiene que estar entre 500 y 504", 500, 504, 3);
-				if(searchJuego(jList, jLen, auxAlquiler.idJuego)< 0){
+				flagJuegoId = utn_getInt(&auxAlquiler.idJuego, "Juego ID", "El id del juego tiene que estar entre 100 y 104", 100, 104, 3);
+				if(searchJuego(jList, jLen, auxAlquiler.idJuego) < 0){
 					printf("\n\tEl id del juego es invalido\n\n");
 				}
 				flagDay = utn_getInt(&auxAlquiler.fecha.dia, "dia ", "el dia tiene que estar entre 1 & 31", 1, 31, 3);
@@ -74,7 +74,7 @@ int addAlquiler(Alquiler aList[], int aLen, int* idAlquiler, Cliente cList[], in
 					(*idAlquiler)++;
 					toReturn = 1;
 				} else {
-					printf("\n\tLunch could not be added");
+					printf("\n\tEl alquiler no pudo ser creado\n\n");
 				}
 			}
 		}
@@ -111,6 +111,6 @@ void printAlquiler(Alquiler alquiler, Cliente cList[], int cLen, Juego jList[], 
 	if(loadClienteNombre(alquiler.idCliente, cList, cLen, nombreDelCliente) && loadJuegoNombre(alquiler.idJuego, jList, jLen, nombreDelJuego)){
 		printf("\n\t%d4      %d4    %15s        %20s     %02d/%02d/%d", alquiler.id, alquiler.idCliente, nombreDelJuego, nombreDelCliente, alquiler.fecha.dia, alquiler.fecha.mes, alquiler.fecha.anio);
 	} else {
-		printf("\n\tThere is an error with the food description");
+		printf("\n\tHay un problema con la impresion de los alquileres\n\n");
 	}
 }
