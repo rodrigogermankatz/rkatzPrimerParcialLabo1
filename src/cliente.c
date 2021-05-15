@@ -152,6 +152,8 @@ int printClientes(Cliente cList[], int cLen){
 		}
 		if(count < 1) {
 			printf("\n\tNo hay clientes para imprimir");
+		} else {
+			toReturn = 1;
 		}
 		printf("\n\t-----------------------------------------------------\n\n");
 	}
