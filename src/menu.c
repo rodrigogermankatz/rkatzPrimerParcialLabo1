@@ -15,6 +15,8 @@ int menu() {
 	printf("\n\t2. MODIFICAR CLIENTE");
 	printf("\n\t3. BAJA CLIENTE");
 	printf("\n\t4. LISTAR CLIENTES");
+	printf("\n\t5. AGREGAR ALQUILER");
+	printf("\n\t6. LISTAR ALQUILERES");
 	printf("\n\t0. SALIR");
 	printf("\n\t-----------------------------");
 	printf("\n\tOpción: ");
