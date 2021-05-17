@@ -41,7 +41,7 @@ void printJuego(Juego juego){
 
 int loadJuegoNombre(int id, Juego jList[], int jLen, char name[]){
 	int toReturn = 0;
-	if(id >= 100 && id <= 999 && jList != NULL && jLen > 0 && name != NULL){
+	if(id >= 100 && id <= 104 && jList != NULL && jLen > 0 && name != NULL){
 		for(int i = 0; i < jLen; i++){
 			if(jList[i].id == id){
 				strcpy(name, jList[i].descripcion);

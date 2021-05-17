@@ -51,7 +51,7 @@ int addAlquiler(Alquiler aList[], int aLen, int* idAlquiler, Cliente cList[], in
 
 			index = searchIsEmptyAlquiler(aList, aLen);
 			if(index < 0){
-				printf("\n\tNo lunches available at the moment\n\n");
+				printf("\n\tNo se pueden agregar alquileres por el momento\n\n");
 			} else {
 				printClientes(cList, cLen);
 				flagClienteId = utn_getInt(&auxAlquiler.idCliente, "Cliente ID", "El ID del cliente debe estar entre 5000 y 5004", 5000, 5004, 3);
@@ -88,7 +88,7 @@ int printAlquileres(Alquiler aList[], int aLen, Cliente cList[], int cLen, Juego
 		printf("\n\t------------------------------------------------------------------------------------");
 		printf("\n\t                             LISTA DE ALQUILERES");
 		printf("\n\t------------------------------------------------------------------------------------");
-		printf("\n\tID ALQ.       ID CLIENTE    NOMBRE DEL CLIENTE       NOMBRE DEL JUEGO         FECHA");
+		printf("\n\tID ALQ.    NOMBRE DEL JUEGO       FECHA    ID CLIENTE       NOMBRE DEL CLIENTE");
 		printf("\n\t------------------------------------------------------------------------------------");
 		for(int i = 0; i < aLen; i++) {
 			if(aList[i].isEmpty == 0){
@@ -98,6 +98,8 @@ int printAlquileres(Alquiler aList[], int aLen, Cliente cList[], int cLen, Juego
 		}
 		if(count < 1) {
 			printf("\n\tNo hay alquileres para imprimir\n\n");
+		} else{
+			toReturn = 1;
 		}
 		printf("\n\t------------------------------------------------------------------------------------\n\n");
 	}
@@ -109,7 +111,7 @@ void printAlquiler(Alquiler alquiler, Cliente cList[], int cLen, Juego jList[], 
 	char nombreDelJuego[50];
 
 	if(loadClienteNombre(alquiler.idCliente, cList, cLen, nombreDelCliente) && loadJuegoNombre(alquiler.idJuego, jList, jLen, nombreDelJuego)){
-		printf("\n\t%d4      %d4    %15s        %20s     %02d/%02d/%d", alquiler.id, alquiler.idCliente, nombreDelJuego, nombreDelCliente, alquiler.fecha.dia, alquiler.fecha.mes, alquiler.fecha.anio);
+		printf("\n\t%d4  %20s     %02d/%02d/%d    %d4        %15s", alquiler.id, nombreDelJuego, alquiler.fecha.dia, alquiler.fecha.mes, alquiler.fecha.anio, alquiler.idCliente, nombreDelCliente);
 	} else {
 		printf("\n\tHay un problema con la impresion de los alquileres\n\n");
 	}

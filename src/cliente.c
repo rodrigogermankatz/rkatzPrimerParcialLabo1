@@ -227,7 +227,7 @@ int sortClientes(Cliente cList[], int cLen, int order){
 
 int loadClienteNombre(int id, Cliente cList[], int cLen, char description[]){
 	int toReturn = 0;
-	if(id >= 1000 && id <= 1004 && cList != NULL && cLen > 0 && description != NULL){
+	if(id >= 5000 && id <= 5004 && cList != NULL && cLen > 0 && description != NULL){
 		for(int i = 0; i < cLen; i++){
 			if(cList[i].id == id){
 				strcpy(description, cList[i].nombre);
