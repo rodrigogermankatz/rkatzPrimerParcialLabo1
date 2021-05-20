@@ -62,4 +62,16 @@ int utn_getString(char *pStringResult, char* mensaje, char* mensajeError, int mi
  *
  */
 
+/** brief funcion para pedir el sexo
+ *
+ * \param pResultado char*
+ * \param mensaje char* mensaje para pedir el string
+ * \param mensajeError char* mensaje de error
+ * \param char f femenino
+ * \param char m masculino
+ * \param char n no indica
+ * \param reintentos int reintentos para ingresar el string
+ * \return int 1 ok / 0 error
+ */
+int utn_getSex(char* pResultado, char* mensaje, char* mensajeError, char fem, char mas, char na, int reintentos);
 #endif /* BIBLIOTECA_H_ */

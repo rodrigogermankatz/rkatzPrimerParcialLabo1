@@ -31,19 +31,19 @@ int main(void) {
 
 
 	Categoria categorias[QTY_CATEGORIAS] = { // id, desc
-			{500, "Aventura"},
-			{501, "Accion"},
-			{502, "Carrera"},
-			{503, "Terror"},
-			{504, "RPG"}
+			{500, "Mesa"},
+			{501, "Azar"},
+			{502, "Estrategia"},
+			{503, "Salon"},
+			{504, "Magia"}
 	};
 
 	Juego juegos[QTY_JUEGOS] = { // codigo, desc, importe, idCategoria
-			{100, "Mortal combat 1", 5000, 501},
-			{101, "Gran turismo" , 4132, 502},
-			{102, "Lineage 2", 1231, 504},
-			{103, "Silent hill", 8751, 503},
-			{104, "Tomb raider", 6123, 500}
+			{100, "Bingo", 5000, 501},
+			{101, "TEG" , 4132, 502},
+			{102, "Galera", 1231, 504},
+			{103, "Pool", 8751, 503},
+			{104, "Cartas", 6123, 500}
 	};
 
 	char response = 'n';
