@@ -8,6 +8,7 @@
 #include "menu.h"
 
 
+
 int initClientes(Cliente cList[], int cLen){
 	int toReturn = 0;
 	int count = 0;
@@ -34,7 +35,7 @@ int searchIsEmpty(Cliente cList[], int cLen){
 	return index;
 }
 
-int addCliente(Cliente cList[], int cLen, int *idCliente){
+int addCliente(Cliente cList[], int cLen, int *idCliente, Localidad lList[], int lLen){
 	int toReturn = 0;
 	Cliente auxCliente;
 
@@ -42,6 +43,7 @@ int addCliente(Cliente cList[], int cLen, int *idCliente){
 	int flagLastName = 0;
 	int flagTelephone = 0;
 	int flagSex = 0;
+	int flagLocalidad = 0;
 
 	int index;
 
@@ -53,9 +55,11 @@ int addCliente(Cliente cList[], int cLen, int *idCliente){
 		} else {
 			flagName = utn_getString(auxCliente.nombre, "Nombre ", "El nombre debe tener entre 2-50 caracteres", 2, 50, 3);
 			flagLastName = utn_getString(auxCliente.apellido, "Apellido ", "El apellido debe tener entre 2-50 caracteres", 2, 50, 3);
+			printLocalidades(lList, lLen);
+			flagLocalidad = utn_getInt(&auxCliente.idLocalidad, "ID Localidad ", "El ID de la Localidad debe ser entre 200 & 204", 200, 204, 3);
 			flagTelephone = utn_getString(auxCliente.telefono, "Telefono ", "El telefono debe tener entre 2-20 caracteres", 2, 20, 3);
 			flagSex = utn_getSex(&auxCliente.sexo, "Sexo f/m/n ", "Sexo debe ser f, m, n", 'f', 'm', 'n', 3);
-			if( flagLastName && flagName && flagTelephone && flagSex){
+			if( flagLastName && flagName && flagTelephone && flagSex && flagLocalidad){
 				auxCliente.isEmpty = 0;
 				auxCliente.id =  *idCliente;
 				cList[index] = auxCliente;
@@ -82,45 +86,45 @@ int findClienteById(Cliente cList[], int cLen, int id){
 	return index;
 }
 
-int modifyClienteById(Cliente cList[], int cLen){
+int modifyClienteById(Cliente cList[], int cLen, Localidad lList[], int lLen){
 	int toReturn = 0;
 	int idCliente;
 	int index = -1;
 	if(cList != NULL && cLen > 0){
 		// TODO: print employee list
-		printClientes(cList, cLen);
+		printClientes(cList, cLen, lList, lLen);
 		// TODO: make the user select an id from the list
-		utn_getInt(&idCliente, "Cliente ID", "El ID del cliente debe ser entre 5000 & 5005", 5000, 5004, 3);
+		utn_getInt(&idCliente, "Cliente ID", "El ID del cliente debe ser entre 5000 & 5004", 5000, 5004, 3);
 		// TODO: if the user id is not empty and id is valid return the index
 		index = findClienteById(cList, cLen, idCliente);
 		if(index < 0){
 			printf("\n\tNo hay cliente con el ID %d\n\n", idCliente);
 		} else {
-			toReturn = showClienteCondicionesMenu(cList, cLen, index,  idCliente);
+			toReturn = showClienteCondicionesMenu(cList, cLen, index,  idCliente, lList, lLen);
 		}
 	}
 	return toReturn;
 }
 
-int deleteCliente(Cliente cList[], int cLen){
+int deleteCliente(Cliente cList[], int cLen, Localidad lList[], int lLen){
 	int toReturn = 0;
-	int employeeId;
+	int idCliente;
 	int index = -1;
 	int flag = 0;
 	char confirm;
 	if(cList != NULL && cLen > 0){
 		// TODO: print employee list
-		printClientes(cList, cLen);
+		printClientes(cList, cLen, lList, lLen);
 		// TODO: make the user select an id from the list
-		utn_getInt(&employeeId, "Cliente ID", "El ID del cliente debe ser entre 5000 & 5005", 5000, 5004, 3);
+		utn_getInt(&idCliente, "Cliente ID", "El ID del cliente debe ser entre 5000 & 5004", 5000, 5004, 3);
 		// TODO: if the user id is not empty and id is valid return the index
-		index = findClienteById(cList, cLen, employeeId);
+		index = findClienteById(cList, cLen, idCliente);
 		if(flag == 1 && index < 0){
-			printf("\n\tNo hay cliente con el ID %d\n\n", employeeId);
+			printf("\n\tNo hay cliente con el ID %d\n\n", idCliente);
 		} else {
 			printf("\n\tcliente a borrar: ");
-			printCliente(cList[index]);
-			printf("\n\n\tEsta seguro que desea borra al cliente id %d ? n/y ", employeeId);
+			printCliente(cList[index], lList, lLen);
+			printf("\n\n\tEsta seguro que desea borra al cliente id %d ? n/y ", idCliente);
 			fflush(stdin);
 			scanf("%c", &confirm);
 			if(confirm == 'y'){
@@ -134,19 +138,19 @@ int deleteCliente(Cliente cList[], int cLen){
 	return toReturn;
 }
 
-int printClientes(Cliente cList[], int cLen){
+int printClientes(Cliente cList[], int cLen, Localidad lList[], int lLen){
 	int toReturn = 0;
 	int count = 0;
 	if(cList != NULL && cLen > 0){
 		sortClientes(cList, cLen, 1);
-		printf("\n\t-----------------------------------------------------");
+		printf("\n\t-------------------------------------------------------------");
 		printf("\n\t               LISTA DE CLIENTES");
-		printf("\n\t-----------------------------------------------------");
-		printf("\n\tID       NOMBRE             SEXO         TELEFONO");
-		printf("\n\t-----------------------------------------------------");
+		printf("\n\t-------------------------------------------------------------");
+		printf("\n\tID       NOMBRE             SEXO      TELEFONO  cod-LOCALIDAD");
+		printf("\n\t-------------------------------------------------------------");
 		for(int i = 0; i < cLen; i++) {
 			if(cList[i].isEmpty == 0){
-				printCliente(cList[i]);
+				printCliente(cList[i], lList, lLen);
 				count++;
 			}
 		}
@@ -155,13 +159,15 @@ int printClientes(Cliente cList[], int cLen){
 		} else {
 			toReturn = 1;
 		}
-		printf("\n\t-----------------------------------------------------\n\n");
+		printf("\n\t-------------------------------------------------------------\n\n");
 	}
 	return toReturn;
 }
 
-void printCliente(Cliente cliente){
+void printCliente(Cliente cliente, Localidad lList[], int lLen){
 	char fullName[100] = "";
+	char telefono[21]= "";
+	char description[50];
 
 	strcat(fullName, cliente.apellido);
 	for(int i = 0; fullName[i] != '\0'; i++){
@@ -186,7 +192,20 @@ void printCliente(Cliente cliente){
 		}
 	}
 
-	printf("\n\t%3d  %15s      %2c   %20s", cliente.id, fullName, cliente.sexo, cliente.telefono);
+	strcat(telefono, cliente.telefono);
+	for(int i = 0; telefono[i] != '\0'; i++){
+		if(telefono[i] == '\n') {
+			telefono[i] = '\0';
+			break;
+		}
+	}
+
+	if(loadLocalidadDescripcion(cliente.idLocalidad, lList,lLen, description)){
+		printf("\n\t%3d  %15s      %2c   %15s  %d-%s", cliente.id, fullName, cliente.sexo, telefono, cliente.idLocalidad, description);
+	} else {
+		printf("\n\tNo se pueden imprimir los clientes\n\n");
+	}
+
 
 }
 

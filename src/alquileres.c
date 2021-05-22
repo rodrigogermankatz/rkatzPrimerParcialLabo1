@@ -37,7 +37,7 @@ int searchIsEmptyAlquiler(Alquiler aList[], int aLen){
 }
 
 
-int addAlquiler(Alquiler aList[], int aLen, int* idAlquiler, Cliente cList[], int cLen, Categoria catList[], int catLen, Juego jList[], int jLen){
+int addAlquiler(Alquiler aList[], int aLen, int* idAlquiler, Cliente cList[], int cLen, Categoria catList[], int catLen, Juego jList[], int jLen, Localidad lList[], int lLen){
 	int toReturn = 0;
 		Alquiler auxAlquiler;
 		int index = -1;
@@ -53,7 +53,7 @@ int addAlquiler(Alquiler aList[], int aLen, int* idAlquiler, Cliente cList[], in
 			if(index < 0){
 				printf("\n\tNo se pueden agregar alquileres por el momento\n\n");
 			} else {
-				printClientes(cList, cLen);
+				printClientes(cList, cLen, lList, lLen);
 				flagClienteId = utn_getInt(&auxAlquiler.idCliente, "Cliente ID", "El ID del cliente debe estar entre 5000 y 5004", 5000, 5004, 3);
 				if(findClienteById(cList, cLen, auxAlquiler.idCliente) < 0){
 					printf("\n\tEl id del cliente es invalido\n\n");
@@ -63,6 +63,7 @@ int addAlquiler(Alquiler aList[], int aLen, int* idAlquiler, Cliente cList[], in
 				if(searchJuego(jList, jLen, auxAlquiler.idJuego) < 0){
 					printf("\n\tEl id del juego es invalido\n\n");
 				}
+				printCategorias(catList, catLen);
 				flagDay = utn_getInt(&auxAlquiler.fecha.dia, "dia ", "el dia tiene que estar entre 1 & 31", 1, 31, 3);
 				flagMonth = utn_getInt(&auxAlquiler.fecha.mes, "mes ", "el mes tiene que estar entre 1 & 12", 1, 12, 3);
 				flagYear = utn_getInt(&auxAlquiler.fecha.anio, "año ", "el año tiene que estar entre 1980 & 3000", 1980, 3000, 3);
@@ -81,19 +82,25 @@ int addAlquiler(Alquiler aList[], int aLen, int* idAlquiler, Cliente cList[], in
 		return toReturn;
 }
 
-int printAlquileres(Alquiler aList[], int aLen, Cliente cList[], int cLen, Juego jList[], int jLen){
+int printAlquileres(Alquiler aList[], int aLen, Cliente cList[], int cLen, Categoria catList[], int catLen, Juego jList[], int jLen, Localidad lList[], int lLen){
 	int toReturn = 0;
 	int count = 0;
-	if(aList != NULL && aLen > 0){
-		printf("\n\t------------------------------------------------------------------------------------");
-		printf("\n\t                             LISTA DE ALQUILERES");
-		printf("\n\t------------------------------------------------------------------------------------");
-		printf("\n\tID ALQ.    NOMBRE DEL JUEGO       FECHA    ID CLIENTE       NOMBRE DEL CLIENTE");
-		printf("\n\t------------------------------------------------------------------------------------");
+	if(aList != NULL && aLen > 0 && cList != NULL && cLen > 0 && catList != NULL && catLen > 0 && jList != NULL && jLen > 0){
+		printf("\n\t------------------------------------------------------------------------------------------------------------------------------");
+		printf("\n\t                                        LISTA DE ALQUILERES");
+		printf("\n\t------------------------------------------------------------------------------------------------------------------------------");
+		printf("\n\tID ALQ.    NOMBRE DEL JUEGO       IMPORTE       CATEGORIA          FECHA     ID CLIENTE       NOMBRE DEL CLIENTE    LOCALIDAD");
+		printf("\n\t------------------------------------------------------------------------------------------------------------------------------");
+
 		for(int i = 0; i < aLen; i++) {
 			if(aList[i].isEmpty == 0){
-				printAlquiler(aList[i], cList, cLen, jList, jLen);
-				count++;
+				for(int c = 0; c < cLen; c++) {
+					if(cList[c].isEmpty == 0 && aList[i].idCliente == cList[c].id ){
+						printAlquiler(aList[i], cList[c], cList, cLen, catList, catLen, jList, jLen, lList, lLen);
+						count++;
+					}
+					//else {aList[i].isEmpty = 1;}
+				}
 			}
 		}
 		if(count < 1) {
@@ -101,18 +108,28 @@ int printAlquileres(Alquiler aList[], int aLen, Cliente cList[], int cLen, Juego
 		} else{
 			toReturn = 1;
 		}
-		printf("\n\t------------------------------------------------------------------------------------\n\n");
+		printf("\n\t------------------------------------------------------------------------------------------------------------------------------\n\n");
 	}
 	return toReturn;
 }
 
-void printAlquiler(Alquiler alquiler, Cliente cList[], int cLen, Juego jList[], int jLen){
+void printAlquiler(Alquiler alquiler, Cliente cliente, Cliente cList[], int cLen, Categoria catList[], int catLen, Juego jList[], int jLen, Localidad lList[], int lLen){
 	char nombreDelCliente[50];
 	char nombreDelJuego[50];
+	char descriptionLocalidad[50] = "";
+	char descripcionDeCategoria[50];
+	float importeJuego;
 
-	if(loadClienteNombre(alquiler.idCliente, cList, cLen, nombreDelCliente) && loadJuegoNombre(alquiler.idJuego, jList, jLen, nombreDelJuego)){
-		printf("\n\t%d4  %20s     %02d/%02d/%d    %d4        %15s", alquiler.id, nombreDelJuego, alquiler.fecha.dia, alquiler.fecha.mes, alquiler.fecha.anio, alquiler.idCliente, nombreDelCliente);
+	if(
+	   loadLocalidadDescripcion(cliente.idLocalidad, lList, lLen, descriptionLocalidad) &&
+	   loadClienteNombre(alquiler.idCliente, cList, cLen, nombreDelCliente) &&
+	   loadJuegoNombre(alquiler.idJuego, jList, jLen, nombreDelJuego) &&
+	   loadCategoriaImporteDescripcion(alquiler.idJuego, jList, jLen, catList, catLen, descripcionDeCategoria, &importeJuego)
+	   ){
+		printf("\n\t%d   %20s      $%.2f      %10s     %02d/%02d/%d       %4d     %15s %15s", alquiler.id, nombreDelJuego, importeJuego, descripcionDeCategoria, alquiler.fecha.dia, alquiler.fecha.mes, alquiler.fecha.anio, alquiler.idCliente, nombreDelCliente, descriptionLocalidad);
 	} else {
 		printf("\n\tHay un problema con la impresion de los alquileres\n\n");
 	}
 }
+
+

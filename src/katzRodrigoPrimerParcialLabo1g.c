@@ -14,11 +14,13 @@
 #include "juego.h"
 #include "alquileres.h"
 #include "categoria.h"
+#include "localidad.h"
 
 #define QTY_CLIENTES 5
 #define QTY_ALQUILERES 5
 #define QTY_CATEGORIAS 5
 #define QTY_JUEGOS 5
+#define QTY_LOCALIDADES 5
 
 
 
@@ -46,6 +48,14 @@ int main(void) {
 			{104, "Cartas", 6123, 500}
 	};
 
+	Localidad localidades[QTY_LOCALIDADES] = {
+			{ 200, "CABA"},
+			{ 201, "Avellaneda"},
+			{ 202, "Lomas"},
+			{ 203, "Lanus"},
+			{ 204, "Otro"}
+	};
+
 	char response = 'n';
 
 	int flagInit = 0;
@@ -67,7 +77,7 @@ int main(void) {
 		switch(menu()){
 		case 1:
 			if(flagInit == 1){
-				flagAddition = addCliente(clientes, QTY_CLIENTES, &idCliente);
+				flagAddition = addCliente(clientes, QTY_CLIENTES, &idCliente, localidades, QTY_LOCALIDADES);
 				if(flagAddition == 1){
 					printf("\n\tCliente agregado\n\n");
 				} else {
@@ -79,7 +89,7 @@ int main(void) {
 			break;
 		case 2:
 			if(flagAddition == 1){
-				if(modifyClienteById(clientes, QTY_CLIENTES)){
+				if(modifyClienteById(clientes, QTY_CLIENTES, localidades, QTY_LOCALIDADES)){
 					printf("\n\tEl cliente fue modificado\n\n");
 				} else {
 					printf("\n\tNo se pudo modificar el cliente\n\n");
@@ -91,7 +101,7 @@ int main(void) {
 			break;
 		case 3:
 			if(flagAddition == 1){
-				if(deleteCliente(clientes, QTY_CLIENTES)){
+				if(deleteCliente(clientes, QTY_CLIENTES, localidades, QTY_LOCALIDADES)){
 					printf("\n\tCliente borrado\n\n");
 				} else {
 					printf("\n\tEl cliente no se puede borrar\n\n");
@@ -102,7 +112,7 @@ int main(void) {
 			break;
 		case 4:
 			if(flagAddition == 1){
-				if(printClientes(clientes, QTY_CLIENTES)){
+				if(printClientes(clientes, QTY_CLIENTES, localidades, QTY_LOCALIDADES)){
 					printf("\n\tClientes listados\n\n");
 				} else {
 					printf("\n\tNo se puede listar los clientes\n\n");
@@ -113,7 +123,7 @@ int main(void) {
 			break;
 		case 5:
 			if(flagAddition == 1 && flagInitAlquileres == 1){
-				flagAdditionAlquiler = addAlquiler(alquileres, QTY_ALQUILERES, &idAlquiler, clientes, QTY_CLIENTES, categorias, QTY_CATEGORIAS, juegos, QTY_JUEGOS);
+				flagAdditionAlquiler = addAlquiler(alquileres, QTY_ALQUILERES, &idAlquiler, clientes, QTY_CLIENTES, categorias, QTY_CATEGORIAS, juegos, QTY_JUEGOS, localidades, QTY_LOCALIDADES);
 				if(flagAdditionAlquiler == 1){
 					printf("\n\tAlquiler agregado\n\n");
 				} else {
@@ -125,7 +135,7 @@ int main(void) {
 			break;
 		case 6:
 			if(flagAddition == 1 && flagAdditionAlquiler == 1){
-				if(printAlquileres(alquileres, QTY_ALQUILERES, clientes, QTY_CLIENTES, juegos, QTY_JUEGOS)){
+				if(printAlquileres(alquileres, QTY_ALQUILERES, clientes, QTY_CLIENTES, categorias, QTY_CATEGORIAS, juegos, QTY_JUEGOS, localidades, QTY_LOCALIDADES)){
 					printf("\n\tAlquileres listados\n\n");
 				} else {
 					printf("\n\tLos alquileres no pudieron ser listados\n\n");
@@ -133,9 +143,18 @@ int main(void) {
 			} else {
 				printf("\n\tPara listar los alquileres tiene que haber clientes y alquileres registrados\n\n");
 			}
-
 			break;
-
+		case 7:
+			if(flagAddition == 1 && flagAdditionAlquiler == 1){
+				if(showInformesMenu(alquileres, QTY_ALQUILERES, clientes, QTY_CLIENTES, categorias, QTY_CATEGORIAS, juegos, QTY_JUEGOS, localidades, QTY_LOCALIDADES)){
+					printf("\n\tInformes hechos\n\n");
+				} else {
+					printf("\n\tLos informes no se pueden hacer\n\n");
+				}
+			} else {
+				printf("\n\tPara hacer informes tiene que haber clientes y alquileres registrados\n\n");
+			}
+			break;
 		case 0:
 			response = 'y';
 			break;

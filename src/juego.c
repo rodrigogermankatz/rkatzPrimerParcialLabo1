@@ -22,7 +22,7 @@ int printJuegos(Juego jList[], int jLen){
 	int toReturn = 0;
 	if(jList != NULL && jLen > 0){
 		printf("\n\t-------------------------------------------------");
-		printf("\n\t        LISTA DE JUEGOS");
+		printf("\n\t              LISTA DE JUEGOS");
 		printf("\n\t-------------------------------------------------");
 		printf("\n\tID      DESCRIPCION     PRECIO     ID CATEGORIA  ");
 		printf("\n\t-------------------------------------------------");
@@ -35,7 +35,7 @@ int printJuegos(Juego jList[], int jLen){
 }
 
 void printJuego(Juego juego){
-	printf("\n\t%4d  %20s  %7.2f  %3d", juego.id, juego.descripcion, juego.importe, juego.idCategoria);
+	printf("\n\t%3d  %10s        %7.2f     %3d", juego.id, juego.descripcion, juego.importe, juego.idCategoria);
 }
 
 

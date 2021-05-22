@@ -5,7 +5,7 @@
 #ifndef CLIENTE_H_
 #define CLIENTE_H_
 
-
+#include "localidad.h"
 
 
 typedef struct {
@@ -14,6 +14,7 @@ typedef struct {
 	char apellido[50];
 	char sexo;
 	char telefono[21];
+	int idLocalidad;
 	int isEmpty;
 } Cliente;
 
@@ -38,7 +39,7 @@ int searchIsEmpty(Cliente cList[], int cLen);
  * param puntero int para generar el id autoincremental
  * return 0 error/ 1 ok
  */
-int addCliente(Cliente cList[], int cLen, int *idCliente);
+int addCliente(Cliente cList[], int cLen, int *idCliente, Localidad lList[], int lLen);
 
 /** brief funcion para encontrar un cliente por id
  * param de tipo Cliente lista de clientes
@@ -53,27 +54,33 @@ int findClienteById(Cliente cList[], int cLen, int id);
  * param int tamaño de la lista
  * return 0 error/ 1 ok
  */
-int modifyClienteById(Cliente cList[], int cLen);
+int modifyClienteById(Cliente cList[], int cLen, Localidad lList[], int lLen);
 
 /** brief funcion para borrar un cliente
  * param de tipo Cliente lista de clientes
  * param int tamaño de la lista
  * return 0 error/ 1 ok
  */
-int deleteCliente(Cliente cList[], int cLen);
+int deleteCliente(Cliente cList[], int cLen, Localidad lList[], int lLen);
 
 /** brief funcion para imprimir la lista de clientes
  * param de tipo Cliente lista de clientes
  * param int tamaño de la lista
+ * param Localidad lista de localidades
+ * param int lLen tamaño de la lista de localidades
+ *
  * return 0 error/ 1 ok
  */
-int printClientes(Cliente cList[], int cLen);
+int printClientes(Cliente cList[], int cLen, Localidad lList[], int lLen);
 
 /** brief funcion para imprimir un cliente
  * param cliente de tipo Cliente
+ * param Localidad lista de localidades
+ * param int lLen tamaño de la lista de localidades
+ *
  * return void
  */
-void printCliente(Cliente cliente);
+void printCliente(Cliente cliente, Localidad lList[], int lLen);
 
 /** brief funcion para ordernar clientes
  * param lista de clientes
